@@ -5,13 +5,17 @@ This creates a search comparator object to help you compare searches that are wr
 # How To Use 
 
 ```{python}
+
 from search_comparator import Comparator
 
 def search_option_1(query):
-    return results
+    return ['a', 'b', 'c']
 
 def search_option_2(query):
-    return results 
+    return ['d', 'b', 'a']
+
+def search_option_3(query):
+    return ['g', 'a', 'c']
 
 queries = [
     "query_example_1",
@@ -22,9 +26,10 @@ comparator = Comparator()
 comparator.add_queries(queries)
 comparator.add_search(search_option_1, "sample_search_1")
 comparator.add_search(search_option_2, "sample_search_2")
+comparator.add_search(search_option_3, "sample_search_3")
 
 comparator.evaluate()
-comparator.show_different_searches()
+comparator.show_comparisons(queries[0])
 
 ```
 
