@@ -2,6 +2,13 @@
 
 This creates a search comparator object to help you compare searches that are written.
 
+# Installation 
+
+```
+pip install -r requirements.txt
+pip install -e .
+```
+
 # How To Use 
 
 ```{python}
