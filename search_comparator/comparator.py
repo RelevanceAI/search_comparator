@@ -31,6 +31,13 @@ class Comparator:
     def get_query_result(self, query):
         return self._recorder.get_query_result(query)
 
+    def show_all_results(self):
+        show_results = defaultdict(dict)
+        for q in self._recorder.recorder:
+            for s in self._recorder.recorder[q]:
+                show_results[q][s] = self._recorder.recorder[q][s]._inner_list
+        return show_results
+
     def evaluate_query_result(self, query):
         """Scores the query results"""
         model_results = self._recorder.get_query_result(query)
