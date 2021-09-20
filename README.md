@@ -33,6 +33,8 @@ comparator.show_comparisons(queries[0])
 
 ```
 
+![image](example.png)
+
 When creating a search comparator, it is reliant on there being a standardised results format.
 It must either be a list of strings or a list of dictionaries with an _id available attached.
 This can be customised. 

@@ -85,8 +85,10 @@ class Comparator:
         """
         self._searches[name] = search
 
-    def show_comparisons(self, query):
-        return pd.DataFrame(self.evaluate_query_result(query))
-    
-    # def show_search_results(self):
-    #     return {}
+    def show_comparisons(self, query, return_as_dataframe=False, cmap="Blues"):
+        df = pd.DataFrame(self.evaluate_query_result(query))
+        if return_as_dataframe:
+            return df
+        for c in df.columns:
+            df[c] = df[c].apply(lambda x: x[0] if not pd.isna(x) else 0)
+        return df.style.background_gradient(cmap=cmap, high=1, low=0)
