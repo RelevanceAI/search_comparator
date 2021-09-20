@@ -40,6 +40,7 @@ class Comparator:
 
     def evaluate_query_result(self, query):
         """Scores the query results"""
+        print(query)
         model_results = self._recorder.get_query_result(query)
         scores = defaultdict(dict)
         for i, (model_name, r) in enumerate(model_results.items()):
