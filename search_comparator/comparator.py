@@ -1,6 +1,7 @@
 """Evaluator for better search.
 """
 import pandas as pd
+import numpy as np
 from collections import defaultdict
 from typing import Union, Callable
 from .query import Query
@@ -46,7 +47,7 @@ class Comparator:
         for i, (model_name, r) in enumerate(model_results.items()):
             for j, (model_name_2, r_2) in enumerate(model_results.items()):
                 if i == j:
-                    continue
+                    scores[model_name][model_name_2] = np.nan
                 scores[model_name][model_name_2] = self.score(r.to_ids(), r_2.to_ids())
         return scores
     
