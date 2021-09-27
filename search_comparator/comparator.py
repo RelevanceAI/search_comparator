@@ -1,5 +1,6 @@
 """Evaluator for better search.
 """
+import json
 import pandas as pd
 import numpy as np
 from collections import defaultdict
@@ -105,3 +106,20 @@ class Comparator:
         #     df[c] = df[c].apply(lambda x: x[0] if not pd.isna(x) else 0)
         df = pd.DataFrame(results)
         return df.style.background_gradient(cmap=cmap, high=1, low=0, axis=None)
+
+    def _add_fn_extension(self, filename):
+        if not filename.endswith(".json"):
+            filename = filename + ".json" 
+        return filename
+
+    def save(self, filename):
+        filename = self._add_fn_extension(filename)
+        with open(filename, 'w') as f:
+            json.dump(self._recorder.to_json(), f)
+        
+    def load(self, filename):
+        filename = self._add_fn_extension(filename)
+        with open(filename, 'r') as f:
+            d = json.load(f)
+        self._recorder = ResultsRecorder()
+        self._recorder.from_json(d)

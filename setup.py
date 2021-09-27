@@ -16,12 +16,12 @@ def get_version(rel_path):
     raise RuntimeError(f"Unable to find a valid __version__ string in {rel_path}.")
 
 setup(
-    name='VecDB',
+    name='search_comparator',
     version=get_version("search_comparator/__init__.py"),
     url='',
     author='Relevance AI',
     author_email='dev@vctr.ai',
-    description='No description',
+    description='A search comparator',
     packages=find_packages(),    
     install_requires=[],
 )

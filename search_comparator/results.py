@@ -52,6 +52,9 @@ class ResultList(collections.MutableSequence):
 
     def to_ids(self):
         return self._get_result_ids(self._inner_list)
+    
+    def to_list(self):
+        return self._inner_list
 
 # class ResultList(list):
 #     def __init__(self, result_list: list):
@@ -115,3 +118,18 @@ class ResultsRecorder:
 
     def get_query_result(self, query):
         return self.recorder[query]
+    
+    def to_json(self):
+        """To JSON file
+        """
+        results_list_all = defaultdict(dict)
+        for query, search_config in self._recorder.items():
+            for search_config, results_list in search_config.items():
+                results_list_all[query][search_config] = results_list.to_list()
+        return results_list_all
+
+    def from_json(self, json_data):
+        for q in json_data:
+            for search_name, search in json_data[q].items():
+                results = ResultList(search)
+                self._recorder[q][search_name] = results

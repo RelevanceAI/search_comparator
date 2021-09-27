@@ -4,9 +4,10 @@ This creates a search comparator object to help you compare searches that are wr
 
 # Installation 
 
+Install via pip:
+
 ```
-pip install -r requirements.txt
-pip install -e .
+pip install search-comparator
 ```
 
 # How To Use 
