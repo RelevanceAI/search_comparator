@@ -89,6 +89,9 @@ class Comparator:
         """
         del self._searches[search_name]
     
+    def list_searches(self):
+        return list(self._searches)
+    
     def add_search(self, search: Callable, name: str=None, search_metadata={}):
         """here, we have the search configuration for ensuring that the search
         is useful.
@@ -133,7 +136,13 @@ class Comparator:
         if return_as_json:
             return results_to_compare
         return pd.DataFrame(results_to_compare)
+    
+    def compare_results_on_one_field(self, query_example: str, field: str):
+        results_to_compare = {}
+        for search_name, result_list in self._recorder._recorder[query_example].items():
+            results_to_compare[search_name] = [r.get(field) for r in result_list.to_list()]
+        return results_to_compare
 
     def show_json_compare_results(self, query_example: str, *args, **kwargs):
         from jsonshower import show_json
-        return show_json(self.compare_results(query_example), *args, **kwargs)
+        return show_json(self.compare_results(query_example, return_as_json=True), *args, **kwargs)
