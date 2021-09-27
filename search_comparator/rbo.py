@@ -24,7 +24,7 @@ class VDBRBOScorer(DocUtils):
 
     def round_up(self, n, decimals=1):
         multiplier = 10 ** decimals
-        return math.ceil(n * multiplier) / multiplier
+        return round(math.ceil(n * multiplier) / multiplier, 2)
 
     def get_rbo_score(self, p=1):
         """

@@ -51,7 +51,9 @@ class ResultList(collections.MutableSequence):
         return result_list
 
     def to_ids(self):
-        return self._get_result_ids(self._inner_list)
+        if isinstance(self._inner_list[0], dict):
+            return self._get_result_ids(self._inner_list)
+        return self._inner_list
     
     def to_list(self):
         return self._inner_list

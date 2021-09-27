@@ -66,6 +66,9 @@ class Comparator:
         if query not in self._queries:
             self._queries[query] = []
     
+    def list_queries(self):
+        return self._queries
+    
     def add_queries(self, queries):
         [self.add_query(q) for q in queries]
     
@@ -98,7 +101,7 @@ class Comparator:
         """
         self._searches[name] = search
 
-    def show_comparisons(self, query, return_as_dataframe=False, cmap="Blues"):
+    def plot_comparisons_by_query(self, query, return_as_dataframe=False, cmap="Blues"):
         results = self.evaluate_query_result(query)
         if return_as_dataframe:
             return pd.DataFrame(results)
@@ -109,6 +112,22 @@ class Comparator:
         #     df[c] = df[c].apply(lambda x: x[0] if not pd.isna(x) else 0)
         df = pd.DataFrame(results)
         return df.style.background_gradient(cmap=cmap, high=1, low=0, axis=None)
+    
+    def plot_all_results_for_search(self, search_config_name: str, cmap="Blues", high=1, low=0, 
+        axis=None, return_as_json: bool=True):
+        scores = defaultdict(dict)
+        for q in self.queries:
+            for q_2 in self.queries:
+                query_results = self._recorder.get_query_result(q)
+                query_results_2 = self._recorder.get_query_result(q_2)
+                scores[q][q_2] = self.score(
+                    query_results[search_config_name].to_ids(),
+                    query_results_2[search_config_name].to_ids()
+                )[0]
+        if return_as_json:
+            return scores
+        df = pd.DataFrame(scores)
+        return df.style.background_gradient(cmap=cmap, high=high, low=low, axis=axis)
 
     def _add_fn_extension(self, filename):
         if not filename.endswith(".json"):

@@ -41,7 +41,7 @@ comparator.add_search(search_option_3, "sample_search_3")
 comparator.add_search(search_option_4, "sample_search_4")
 comparator.evaluate()
 df = comparator.show_comparisons("query_example_1", return_as_dataframe=True)
-comparator.show_comparisons("query_example_1")
+comparator.plot_comparisons_by_query("query_example_1")
 
 ```
 
@@ -51,6 +51,14 @@ You can then also see all the results using:
 ```
 comparator.show_all_results()
 ```
+
+```
+# You can also compare all the query results in order to help to explore relationships between search results
+search_config_name = "use_search"
+comparator.plot_all_results_for_search(search_config_name)
+```
+
+![image](query_analysis.png)
 
 When creating a search comparator, it is reliant on there being a standardised results format.
 It must either be a list of strings or a list of dictionaries with an _id available attached.
