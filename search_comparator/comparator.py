@@ -123,3 +123,15 @@ class Comparator:
             d = json.load(f)
         self._recorder = ResultsRecorder()
         self._recorder.from_json(d)
+    
+    def compare_results(self, query_example: str):
+        """Compare the results of a Pandas DataFrame
+        """
+        results_to_compare = {}
+        for search_name, result_list in self._recorder._recorder[query_example].items():
+            results_to_compare[search_name] = result_list.to_list()
+        return pd.DataFrame(results_to_compare)
+
+    def show_json_compare_results(self, query_example: str, *args, **kwargs):
+        from jsonshower import show_json
+        return show_json(self.compare_results(query_example), *args, **kwargs)

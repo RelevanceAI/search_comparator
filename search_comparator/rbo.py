@@ -9,6 +9,7 @@ class VDBRBOScorer(DocUtils):
     @property
     def rbo_score_mapping(self):
         return {
+            0.0: "The results are nothing alike.",
             0.1: "The results are nothing alike.",
             0.2: "The results are nothing alike.",
             0.3: "The results are somewhat alike.",
