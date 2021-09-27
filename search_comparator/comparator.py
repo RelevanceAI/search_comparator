@@ -146,21 +146,18 @@ class Comparator:
         self._recorder = ResultsRecorder()
         self._recorder.from_json(d)
     
-    def compare_results(self, query_example: str, return_as_json=False):
+    def compare_results(self, query_example: str, field: str=None, return_as_json=False):
         """Compare the results of a Pandas DataFrame
         """
         results_to_compare = {}
         for search_name, result_list in self._recorder._recorder[query_example].items():
-            results_to_compare[search_name] = result_list.to_list()
+            if field is None:
+                results_to_compare[search_name] = result_list.to_list()
+            else:
+                results_to_compare[search_name] = [r.get(field) for r in result_list.to_list()]    
         if return_as_json:
             return results_to_compare
         return pd.DataFrame(results_to_compare)
-    
-    def compare_results_on_one_field(self, query_example: str, field: str):
-        results_to_compare = {}
-        for search_name, result_list in self._recorder._recorder[query_example].items():
-            results_to_compare[search_name] = [r.get(field) for r in result_list.to_list()]
-        return results_to_compare
 
     def show_json_compare_results(self, query_example: str, *args, **kwargs):
         from jsonshower import show_json
