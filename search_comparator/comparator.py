@@ -23,10 +23,10 @@ class Comparator:
         """
         self.score = VDBRBOScorer().score_rbo if score is None else score
 
-    def evaluate(self):
+    def evaluate(self, refresh=False):
         """For new queries or new models - it will re-evaluate
         """
-        self._recorder.record_results(self.queries, self.searches)
+        self._recorder.record_results(self.queries, self.searches, refresh=refresh)
         # Now you want to evaluate the RBO score of each result
         print("You can now compare across the different search results. Run show comparisons.")
     
@@ -138,6 +138,7 @@ class Comparator:
         filename = self._add_fn_extension(filename)
         with open(filename, 'w') as f:
             json.dump(self._recorder.to_json(), f)
+        print(f"saved to {filename}")
         
     def load(self, filename):
         filename = self._add_fn_extension(filename)
@@ -158,6 +159,23 @@ class Comparator:
         if return_as_json:
             return results_to_compare
         return pd.DataFrame(results_to_compare)
+
+    def compare_two_searches(self, search_config_1: str, 
+        search_config_2: str, return_as_json: bool=False, cmap: str="Blues",
+        high: float=1, low: float=0, axis=None):
+        scores = defaultdict(dict)
+        for q in self.queries:
+            for q_2 in self.queries:
+                query_results = self._recorder.get_query_result(q)
+                query_results_2 = self._recorder.get_query_result(q_2)
+                scores[q][q_2] = self.score(
+                    query_results[search_config_1].to_ids(),
+                    query_results_2[search_config_2].to_ids()
+                )[0]
+        if return_as_json:
+            return scores
+        df = pd.DataFrame(scores)
+        return df.style.background_gradient(cmap=cmap, high=high, low=low, axis=axis)
 
     def show_json_compare_results(self, query_example: str, *args, **kwargs):
         from jsonshower import show_json

@@ -79,7 +79,17 @@ comparator.show_comparisons("query_example_1")
 # Compare results for 1 query
 comparator.compare_results(query)
 
+# Narrow down to 1 field
+comparator.compare_results(query, field="product_name")
+
 ```
 
+If you want to specifically compare 2 searches; 
+
+```
+comparator.compare_two_searches(search_config_1_name, search_config_2_name)
+```
+
+![image](compare_two_searches.png)
 
 In the future - there will be better support for differente evaluations.
