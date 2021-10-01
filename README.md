@@ -92,4 +92,10 @@ comparator.compare_two_searches(search_config_1_name, search_config_2_name)
 
 ![image](compare_two_searches.png)
 
-In the future - there will be better support for differente evaluations.
+```
+Copyright (C) Relevance AI - All Rights Reserved
+Unauthorized copying of this repository, via any medium is strictly prohibited
+Proprietary and confidential
+Relevance AI <dev@relevance.ai> 2021 
+```
+
