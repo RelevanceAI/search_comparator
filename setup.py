@@ -23,5 +23,5 @@ setup(
     author_email='dev@vctr.ai',
     description='A search comparator',
     packages=find_packages(),    
-    install_requires=[],
+    install_requires=["rbo", "pandas"],
 )
