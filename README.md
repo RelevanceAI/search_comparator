@@ -40,12 +40,11 @@ comparator.add_search(search_option_2, "sample_search_2")
 comparator.add_search(search_option_3, "sample_search_3")
 comparator.add_search(search_option_4, "sample_search_4")
 comparator.evaluate()
-df = comparator.show_comparisons("query_example_1", return_as_dataframe=True)
 comparator.plot_comparisons_by_query("query_example_1")
 
 ```
 
-![image](example.png)
+![image](assets/example.png)
 
 You can then also see all the results using: 
 ```
@@ -58,7 +57,7 @@ search_config_name = "use_search"
 comparator.plot_all_results_for_search(search_config_name)
 ```
 
-![image](query_analysis.png)
+![image](assets/query_analysis.png)
 
 When creating a search comparator, it is reliant on there being a standardised results format.
 It must either be a list of strings or a list of dictionaries with an _id available attached.
@@ -90,7 +89,7 @@ If you want to specifically compare 2 searches;
 comparator.compare_two_searches(search_config_1_name, search_config_2_name)
 ```
 
-![image](compare_two_searches.png)
+![image](assets/compare_two_searches.png)
 
 ```
 Copyright (C) Relevance AI - All Rights Reserved
