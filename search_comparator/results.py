@@ -18,7 +18,9 @@ def indexing_decorator(func):
 
 
 class ResultList(collections.MutableSequence):
-    def __init__(self, original_list):
+    def __init__(self, original_list: list):
+        if not isinstance(original_list, list):
+            raise ValueError("Search query does not return a list. Ensure that it does.")
         self._inner_list = original_list
 
     def __len__(self):

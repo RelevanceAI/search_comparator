@@ -155,7 +155,7 @@ class Comparator:
             if field is None:
                 results_to_compare[search_name] = result_list.to_list()
             else:
-                results_to_compare[search_name] = [r.get(field) for r in result_list.to_list()]    
+                results_to_compare[search_name] = [r.get(field) if isinstance(r, dict) else r for r in result_list.to_list()]    
         if return_as_json:
             return results_to_compare
         return pd.DataFrame(results_to_compare)
