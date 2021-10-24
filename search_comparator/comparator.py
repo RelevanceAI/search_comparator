@@ -196,7 +196,7 @@ class Comparator:
         from jsonshower import show_json
         return show_json(self.compare_results(query_example, return_as_json=True), *args, **kwargs)
 
-    def most_different_queries(self, search_config_1, search_config_2):
+    def most_different_queries(self, search_config_1, search_config_2, reverse=False):
         """Between 2 search configurations, we are interested in comparing
         the most different queries.
         """
@@ -204,4 +204,4 @@ class Comparator:
         for q in self.queries:
             scores[q] = self.evaluate_query_result(q, search_config_1, search_config_2)
         print("You can now evaluate why they are different using the compare_results")
-        return dict(sorted(scores.items(), key=lambda item: item[1]))
+        return dict(sorted(scores.items(), key=lambda item: item[1], reverse=reverse))
