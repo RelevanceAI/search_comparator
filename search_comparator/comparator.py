@@ -110,7 +110,7 @@ class Comparator:
                 results[q][s] = round(results[q][s][0], 3)
         # for c in df.columns:
         #     df[c] = df[c].apply(lambda x: x[0] if not pd.isna(x) else 0)
-        df = pd.DataFrame(results)
+        df = self._convert_to_df(results)
         return df.style.background_gradient(cmap=cmap, high=1, low=0, axis=None)
     
     def plot_all_results_for_search(self, search_config_name: str, cmap="Blues", high=1, low=0, 
@@ -126,7 +126,7 @@ class Comparator:
                 )[0]
         if return_as_json:
             return scores
-        df = pd.DataFrame(scores)
+        df = self._convert_to_df(scores)
         return df.style.background_gradient(cmap=cmap, high=high, low=low, axis=axis)
 
     def _add_fn_extension(self, filename):
@@ -160,6 +160,12 @@ class Comparator:
             return results_to_compare
         return pd.DataFrame(results_to_compare)
 
+    def _convert_to_df(self, dictionary):
+        """This converts a dictionary to a dataframe and overcomes 
+        the error of different lengths
+        """
+        return pd.DataFrame.from_dict(dictionary, orient='index').T
+
     def compare_two_searches(self, search_config_1: str, 
         search_config_2: str, return_as_json: bool=False, cmap: str="Blues",
         high: float=1, low: float=0, axis=None):
@@ -174,9 +180,15 @@ class Comparator:
                 )[0]
         if return_as_json:
             return scores
-        df = pd.DataFrame(scores)
+        df = self._convert_to_df(scores)
         return df.style.background_gradient(cmap=cmap, high=high, low=low, axis=axis)
 
     def show_json_compare_results(self, query_example: str, *args, **kwargs):
         from jsonshower import show_json
         return show_json(self.compare_results(query_example, return_as_json=True), *args, **kwargs)
+
+    def most_different_queries(self, search_config_1, search_config_2):
+        """Between 2 search configurations, we are interested in comparing
+        the most different queries.
+        """
+        raise NotImplementedError
