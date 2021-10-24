@@ -40,16 +40,19 @@ class Comparator:
                 show_results[q][s] = self._recorder.recorder[q][s]._inner_list
         return show_results
 
-    def evaluate_query_result(self, query):
+    def evaluate_query_result(self, query, search_config_1=None, search_config_2=None):
         """Scores the query results"""
-        print(query)
-        model_results = self._recorder.get_query_result(query)
+        search_results = self._recorder.get_query_result(query)
         scores = defaultdict(dict)
-        for i, (model_name, r) in enumerate(model_results.items()):
-            for j, (model_name_2, r_2) in enumerate(model_results.items()):
-                if i == j:
-                    scores[model_name][model_name_2] = np.nan
-                scores[model_name][model_name_2] = self.score(r.to_ids(), r_2.to_ids())
+        if search_config_1 is None:
+            for i, (search_config_1, r) in enumerate(search_results.items()):
+                for j, (search_config_2, r_2) in enumerate(search_results.items()):
+                    if i == j:
+                        scores[search_config_1][search_config_2] = np.nan
+                    scores[search_config_1][search_config_2] = self.score(r.to_ids(), r_2.to_ids())
+        else:
+            # return search_results[search_config_1].to_ids(), search_results[search_config_2].to_ids()
+            return self.score(search_results[search_config_1].to_ids(), search_results[search_config_2].to_ids())[0]
         return scores
     
     def evaluate_all_query_results(self):
@@ -76,9 +79,9 @@ class Comparator:
     def queries(self):
         return [str(q) for q in self._queries.keys()]
     
-    @queries.setter
-    def queries(self, queries):
-        return [self.add_query(q) for q in queries]
+    # @queries.setter
+    # def queries(self, queries):
+    #     return [self.add_query(q) for q in queries]
     
     def remove_query(self, query):
         self._queries.pop(query)
@@ -147,18 +150,24 @@ class Comparator:
         self._recorder = ResultsRecorder()
         self._recorder.from_json(d)
     
-    def compare_results(self, query_example: str, field: str=None, return_as_json=False):
+    def compare_results(self, query_example: str, field: str=None, return_as_json=False,
+        search_configs: list=[]):
         """Compare the results of a Pandas DataFrame
+        Parameters:
+            search_configs is the list of acceptable search configurations to compare
         """
         results_to_compare = {}
         for search_name, result_list in self._recorder._recorder[query_example].items():
+            if search_configs:
+                if search_name not in search_configs:
+                    continue
             if field is None:
                 results_to_compare[search_name] = result_list.to_list()
             else:
                 results_to_compare[search_name] = [r.get(field) if isinstance(r, dict) else r for r in result_list.to_list()]    
         if return_as_json:
             return results_to_compare
-        return pd.DataFrame(results_to_compare)
+        return self._convert_to_df(results_to_compare)
 
     def _convert_to_df(self, dictionary):
         """This converts a dictionary to a dataframe and overcomes 
@@ -191,4 +200,8 @@ class Comparator:
         """Between 2 search configurations, we are interested in comparing
         the most different queries.
         """
-        raise NotImplementedError
+        scores = {}
+        for q in self.queries:
+            scores[q] = self.evaluate_query_result(q, search_config_1, search_config_2)
+        print("You can now evaluate why they are different using the compare_results")
+        return dict(sorted(scores.items(), key=lambda item: item[1]))
