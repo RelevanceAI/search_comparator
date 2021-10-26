@@ -91,10 +91,32 @@ comparator.compare_two_searches(search_config_1_name, search_config_2_name)
 
 ![image](assets/compare_two_searches.png)
 
+## Getting the most different queries
+
+```
+comparator.most_different_queries(search_config_1, search_config_2)
+```
+This will then return something like this: 
+
+```
+{'what is an sme': 0.01,
+ 'get qr code for business': 0.01,
+ 'business costs assistance program': 0.0690079365079365,
+ 'support businesses near me': 0.07456349206349207,
+ 'nbn': 0.35035714285714287,
+ 'recession': 0.37130952380952376,
+ 'small business covid harship fund': 0.391031746031746,
+ 'isr training': 0.46035714285714296,
+ 'micro business grant': 0.5528571428571428,
+ 'guide to leadership': 0.5585317460317459,
+ 'budget 2021': 0.5651587301587302,
+ 'is australia in recession': 0.694484126984127,
+ 'apple watch ecg australia': 0.7057142857142857}
+ ```
+
 ```
 Copyright (C) Relevance AI - All Rights Reserved
 Unauthorized copying of this repository, via any medium is strictly prohibited
 Proprietary and confidential
 Relevance AI <dev@relevance.ai> 2021 
 ```
-
