@@ -114,9 +114,4 @@ This will then return something like this:
  'apple watch ecg australia': 0.7057142857142857}
  ```
 
-```
-Copyright (C) Relevance AI - All Rights Reserved
-Unauthorized copying of this repository, via any medium is strictly prohibited
-Proprietary and confidential
-Relevance AI <dev@relevance.ai> 2021 
-```
+
