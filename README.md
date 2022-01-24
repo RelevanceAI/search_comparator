@@ -73,8 +73,6 @@ comparator.save("test")
 # Load
 comparator.load('test')
 
-comparator.show_comparisons("query_example_1")
-
 # Compare results for 1 query
 comparator.compare_results(query)
 
